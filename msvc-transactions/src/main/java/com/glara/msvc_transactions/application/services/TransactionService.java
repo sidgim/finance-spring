@@ -4,6 +4,7 @@ import com.glara.msvc_transactions.application.mapper.TransactionMapper;
 import com.glara.msvc_transactions.dto.TransactionDTO;
 import com.glara.msvc_transactions.domain.entities.Transaction;
 import com.glara.msvc_transactions.infrastructure.repository.TransactionRepository;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -19,9 +19,12 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
 
-    public TransactionService(TransactionRepository transactionRepository, TransactionMapper mapper) {
+    private final Environment environment;
+
+    public TransactionService(TransactionRepository transactionRepository, TransactionMapper mapper, Environment environment) {
         this.transactionRepository = transactionRepository;
         this.mapper = mapper;
+        this.environment = environment;
     }
 
     @Transactional(readOnly = true)
@@ -29,8 +32,11 @@ public class TransactionService {
         Pageable pg = PageRequest.of(page, size);
 
         return transactionRepository.findAll(pg).stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
+                .map(transaction -> {
+                    transaction.setPort(Integer.parseInt(environment.getProperty("local.server.port")));
+                       return mapper.toDto(transaction);
+                })
+                .toList();
 
     }
 
@@ -75,7 +81,10 @@ public class TransactionService {
             throw new Exception("No transactions found for account ID: " + accountId);
         }
         return transactions.stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
+                .map(transaction -> {
+                    transaction.setPort(Integer.parseInt(environment.getProperty("local.server.port")));
+                    return mapper.toDto(transaction);
+                })
+                .toList();
     }
 }

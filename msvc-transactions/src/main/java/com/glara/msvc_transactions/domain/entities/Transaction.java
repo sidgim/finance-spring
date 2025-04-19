@@ -3,7 +3,6 @@ package com.glara.msvc_transactions.domain.entities;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -36,6 +35,17 @@ public class Transaction {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
+
+    @Transient
+    private int port;
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
 
     @PrePersist
     public void onCreate() {

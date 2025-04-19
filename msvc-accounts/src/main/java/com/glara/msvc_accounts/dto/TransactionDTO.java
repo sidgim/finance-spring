@@ -3,5 +3,5 @@ package com.glara.msvc_accounts.dto;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public record TransactionDTO(UUID id, String description, UUID accountId, UUID subcategoryId, UUID vendorId , String type, Double amount, OffsetDateTime createdAt) {
+public record TransactionDTO(UUID id, String description, UUID accountId, UUID subcategoryId, UUID vendorId , String type, Double amount, OffsetDateTime createdAt, int port) {
 }
