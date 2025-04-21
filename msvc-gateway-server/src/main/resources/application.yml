@@ -1,0 +1,13 @@
+spring:
+    cloud:
+        gateway:
+            routes:
+                - id: msvc-accounts
+                  uri: lb://msvc-accounts
+                  predicates:
+                    - Path=/account/**
+                - id: msvc-transactions
+                  uri: lb://msvc-transactions
+                  predicates:
+                    - Path=/transaction/**
+
