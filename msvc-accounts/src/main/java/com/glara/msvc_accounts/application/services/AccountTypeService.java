@@ -1,6 +1,7 @@
 package com.glara.msvc_accounts.application.services;
 
-import com.glara.msvc_accounts.dto.AccountTypeDTO;
+
+import com.glara.springcloud.commons.dto.AccountTypeDTO;
 
 import java.util.List;
 import java.util.Optional;

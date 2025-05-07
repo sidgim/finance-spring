@@ -1,4 +1,4 @@
-package com.glara.msvc_accounts.dto;
+package com.glara.springcloud.commons.dto;
 
 public record AccountTypeDTO(
         String id,

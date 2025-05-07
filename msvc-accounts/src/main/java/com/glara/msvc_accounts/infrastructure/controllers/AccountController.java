@@ -1,7 +1,7 @@
 package com.glara.msvc_accounts.infrastructure.controllers;
 
-import com.glara.msvc_accounts.dto.AccountDTO;
 import com.glara.msvc_accounts.application.services.AccountService;
+import com.glara.springcloud.commons.dto.AccountDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,8 +34,9 @@ public class AccountController {
     }
 
     @GetMapping("/{id}/transactions")
-    public ResponseEntity<AccountDTO> getTransactionsByAccount(@PathVariable String id) {
-        return accountService.findTransactionsByAccount(UUID.fromString(id)).map(ResponseEntity::ok)
+    public ResponseEntity<AccountDTO> getTransactionsByAccount(@PathVariable UUID id) {
+        System.out.println("GET /accounts/" + id + "/transactions");
+        return accountService.findTransactionsByAccount(id).map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 

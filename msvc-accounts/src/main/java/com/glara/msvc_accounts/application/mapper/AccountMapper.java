@@ -1,7 +1,7 @@
 package com.glara.msvc_accounts.application.mapper;
 
-import com.glara.msvc_accounts.dto.AccountDTO;
 import com.glara.msvc_accounts.domain.entities.Account;
+import com.glara.springcloud.commons.dto.AccountDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

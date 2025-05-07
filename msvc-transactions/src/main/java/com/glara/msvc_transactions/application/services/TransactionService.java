@@ -28,7 +28,12 @@ public class TransactionService {
     }
 
     @Transactional(readOnly = true)
-    public List<TransactionDTO> findAllTransaction(int size, int page) {
+    public List<TransactionDTO> findAllTransaction(Integer size, Integer page) {
+
+        if (size == null || page == null) {
+            return findAllTransactions();
+        }
+
         Pageable pg = PageRequest.of(page, size);
 
         return transactionRepository.findAll(pg).stream()
@@ -38,6 +43,16 @@ public class TransactionService {
                 })
                 .toList();
 
+    }
+
+    @Transactional(readOnly = true)
+    public List<TransactionDTO> findAllTransactions() {
+        return transactionRepository.findAll().stream()
+                .map(tx -> {
+                    tx.setPort(Integer.parseInt(environment.getProperty("local.server.port")));
+                    return mapper.toDto(tx);
+                })
+                .toList();
     }
 
     @Transactional(readOnly = true)

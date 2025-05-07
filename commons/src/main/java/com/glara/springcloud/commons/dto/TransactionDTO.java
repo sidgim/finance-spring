@@ -1,4 +1,4 @@
-package com.glara.msvc_accounts.dto;
+package com.glara.springcloud.commons.dto;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

@@ -1,6 +1,6 @@
-package com.glara.msvc_accounts.infrastructure.external;
+package com.glara.msvc_accounts.infrastructure.client;
 
-import com.glara.msvc_accounts.dto.TransactionDTO;
+import com.glara.springcloud.commons.dto.TransactionDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

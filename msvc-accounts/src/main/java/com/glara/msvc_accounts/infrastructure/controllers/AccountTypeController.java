@@ -1,7 +1,7 @@
 package com.glara.msvc_accounts.infrastructure.controllers;
 
 import com.glara.msvc_accounts.application.services.AccountTypeService;
-import com.glara.msvc_accounts.dto.AccountTypeDTO;
+import com.glara.springcloud.commons.dto.AccountTypeDTO;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

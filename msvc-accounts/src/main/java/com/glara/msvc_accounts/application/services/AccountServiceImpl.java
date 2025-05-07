@@ -1,10 +1,14 @@
 package com.glara.msvc_accounts.application.services;
 
 import com.glara.msvc_accounts.application.mapper.AccountMapper;
-import com.glara.msvc_accounts.dto.AccountDTO;
 import com.glara.msvc_accounts.domain.entities.Account;
-import com.glara.msvc_accounts.infrastructure.external.TransactionServiceClientImpl;
+import com.glara.msvc_accounts.infrastructure.client.TransactionServiceClientImpl;
 import com.glara.msvc_accounts.infrastructure.repositories.AccountRepository;
+import com.glara.springcloud.commons.dto.AccountDTO;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +19,7 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class AccountServiceImpl implements AccountService {
-
+    private final Logger log = LoggerFactory.getLogger(AccountServiceImpl.class);
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
     private final TransactionServiceClientImpl transactionServiceClientImpl;
@@ -53,6 +57,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(readOnly = true)
+    @CircuitBreaker(name = "transactions", fallbackMethod = "fallbackTransactions")
     public Optional<AccountDTO> findTransactionsByAccount(UUID id) {
         return accountRepository.findByIdAndDeletedFalse(id)
                 .map(account -> {
@@ -62,4 +67,10 @@ public class AccountServiceImpl implements AccountService {
                 });
 
     }
+
+    public Optional<AccountDTO> fallbackTransactions(UUID id, Throwable t) {
+        log.error("Circuit breaker activado para transacciones de cuenta {}: {}", id, t.getMessage());
+        return Optional.empty();
+    }
+
 }

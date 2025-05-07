@@ -1,8 +1,8 @@
 package com.glara.msvc_accounts.application.services;
 
 import com.glara.msvc_accounts.application.mapper.AccountTypeMapper;
-import com.glara.msvc_accounts.dto.AccountTypeDTO;
 import com.glara.msvc_accounts.infrastructure.repositories.AccountTypeRepository;
+import com.glara.springcloud.commons.dto.AccountTypeDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

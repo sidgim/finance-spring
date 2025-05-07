@@ -1,4 +1,4 @@
-package com.glara.msvc_accounts.dto;
+package com.glara.springcloud.commons.dto;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -44,8 +44,8 @@ public class TransactionResource {
 
     @GetMapping
     public ResponseEntity<List<TransactionDTO>> findAllTransaction(
-            @RequestParam("size") Integer size,
-            @RequestParam("page") Integer page) {
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "page", required = false) Integer page) {
         try {
             List<TransactionDTO> result = transactionService.findAllTransaction(size, page);
             return ResponseEntity.ok(result);
