@@ -10,4 +10,8 @@ spring:
                   uri: lb://msvc-transactions
                   predicates:
                     - Path=/transaction/**
+                - id: msvc-users
+                  uri: lb://msvc-users
+                  predicates:
+                    - Path=/user/**
 
