@@ -1,17 +1,42 @@
 spring:
-    cloud:
-        gateway:
-            routes:
-                - id: msvc-accounts
-                  uri: lb://msvc-accounts
-                  predicates:
-                    - Path=/account/**
-                - id: msvc-transactions
-                  uri: lb://msvc-transactions
-                  predicates:
-                    - Path=/transaction/**
-                - id: msvc-users
-                  uri: lb://msvc-users
-                  predicates:
-                    - Path=/user/**
+  security:
+    oauth2:
+      client:
+        registration:
+          client-app:
+            provider: spring
+            client-id: gateway-app
+            client-secret: admin
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:8090/authorized
+            scope:
+              - openid
+              - profile
+            client-name: client-app
+        provider:
+          spring:
+            issuer-uri: http://127.0.0.1:9100
+      # <- resourceserver va aquí, al mismo nivel que client, no dentro de él
+      resourceserver:
+        jwt:
+          issuer-uri: http://127.0.0.1:9100
 
+  cloud:
+    gateway:
+      routes:
+        - id: msvc-accounts
+          uri: lb://msvc-accounts
+          predicates:
+            - Path=/account/**
+        - id: msvc-transactions
+          uri: lb://msvc-transactions
+          predicates:
+            - Path=/transaction/**
+        - id: msvc-users
+          uri: lb://msvc-users
+          predicates:
+            - Path=/user/**
+        - id: msvc-oauth
+          uri: lb://msvc-oauth
+          predicates:
+            - Path=/security/**
